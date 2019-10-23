@@ -64,15 +64,18 @@ class KnightBoardGame:
 
         while not self.queue.empty():
             self.cur_pos = self.queue.get()
-            if self.cur_pos == None:
+            if self.cur_pos is None:
                 self.current_move += 1
                 self.queue.put(None)
+                # Our queue is empty give up
+                if list(self.queue.queue)[0] is None:
+                    return None
                 continue
 
             moves = self.gen_next_set_of_moves()
-            # No more moves possible, return failure
+
             if len(moves) == 0:
-                return None
+                continue
             # Store the moves in case we want to display how we need to do a BFS later
             self.graph[self.cur_pos] = moves
             # Add the moves to the queue that we want to BFS on.
